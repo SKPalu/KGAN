@@ -566,7 +566,7 @@ def word2id(vocab, sent, max_len):
         wids.append(0)
     return wids
  
-def get_embedding(vocab, ds_name, args, types):
+def get_embedding(curdir, vocab, ds_name, args, types):
     emb_file = "glove.840B.300d.txt"
     pkl = 'embeddings/%s_840B.pkl' % ds_name
     n_emb = 0
@@ -584,9 +584,9 @@ def get_embedding(vocab, ds_name, args, types):
                             embeddings[vocab[w]] = [float(v) for v in eles[1:]]
                         except ValueError:
                             pass
-            pickle.dump(embeddings, open(pkl, 'wb'))
+            pickle.dump(embeddings, open(curdir + pkl, 'wb'))
         else:
-            embeddings = pickle.load(open(pkl, 'rb'))
+            embeddings = pickle.load(open(curdir + pkl, 'rb'))
 
     if types == 'only_graph':
         if args.ds_name == '14semeval_laptop':
@@ -610,9 +610,9 @@ def get_embedding(vocab, ds_name, args, types):
             else:
                 graph_pkl = 'embeddings/%s_graph_dismult_bert.pkl' % ds_name
 
-        if not os.path.exists(graph_pkl):
+        if not os.path.exists(curdir + graph_pkl):
             graph_embeddings = np.zeros((len(vocab)+1, args.dim_k), dtype='float32')
-            with open(graph_file, encoding='utf-8') as fp:
+            with open(curdir + graph_file, encoding='utf-8') as fp:
                 for line in fp:
                     eles = line.strip().split()
                     w = eles[0]
@@ -622,9 +622,9 @@ def get_embedding(vocab, ds_name, args, types):
                             graph_embeddings[vocab[w]] = [float(v) for v in eles[1:]]
                         except ValueError:
                             pass
-            pickle.dump(graph_embeddings, open(graph_pkl, 'wb'))
+            pickle.dump(graph_embeddings, open(curdir + graph_pkl, 'wb'))
         else:
-            graph_embeddings = pickle.load(open(graph_pkl, 'rb'))
+            graph_embeddings = pickle.load(open(curdir + graph_pkl, 'rb'))
     if types == 'only_graph':
         return graph_embeddings
     elif types == 'only_word':
