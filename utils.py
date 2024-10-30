@@ -10,6 +10,8 @@ from transformers import BertModel, BertTokenizer, RobertaTokenizer, RobertaMode
 # bert_tokenizer = BertTokenizer.from_pretrained(r'../bert-base-uncased/vocab.txt')
 bert_tokenizer = BertModel.from_pretrained('bert-base-uncased')
 
+roberta_tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
+
 
 def pad_dataset(dataset, bs):
     n_records = len(dataset)
