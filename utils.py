@@ -7,8 +7,8 @@ from model.rgat_file.read_dep_graph import *
 import json
 # from pytorch_pretrained_bert import BertModel, BertTokenizer
 from transformers import BertModel, BertTokenizer, RobertaTokenizer, RobertaModel 
-bert_tokenizer = BertTokenizer.from_pretrained(
-    r'../bert-base-uncased/vocab.txt')
+# bert_tokenizer = BertTokenizer.from_pretrained(r'../bert-base-uncased/vocab.txt')
+bert_tokenizer = BertModel.from_pretrained('bert-base-uncased')
 
 
 def pad_dataset(dataset, bs):
