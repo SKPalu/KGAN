@@ -635,7 +635,7 @@ def get_embedding(curdir, vocab, ds_name, args, types):
         print('error! Please input the correct types!')
 
 
-def build_dataset(args,curdir, is_bert=False):
+def build_dataset(args, is_bert=False, curdir=''):
     if is_bert:
         if args.model in ['ASGCN','KGNN']:
             dataset, vocab = load_data_dep_bert(ds_name=args.ds_name, is_bert = args.is_bert)
