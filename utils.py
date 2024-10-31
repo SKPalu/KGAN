@@ -635,7 +635,7 @@ def get_embedding(curdir, vocab, ds_name, args, types):
         print('error! Please input the correct types!')
 
 
-def build_dataset(args,is_bert=False):
+def build_dataset(args,curdir, is_bert=False):
     if is_bert:
         if args.model in ['ASGCN','KGNN']:
             dataset, vocab = load_data_dep_bert(ds_name=args.ds_name, is_bert = args.is_bert)
@@ -655,13 +655,13 @@ def build_dataset(args,is_bert=False):
     test_set = pad_dataset(dataset=dataset[1], bs=args.bs)
 
     if is_bert is False:
-        embeddings = get_embedding(vocab, args.ds_name, args, types='only_word')
+        embeddings = get_embedding(curdir, vocab, args.ds_name, args, types='only_word')
         for i in range(len(embeddings)):
             if i and np.count_nonzero(embeddings[i]) == 0:
                 embeddings[i] = np.random.uniform(-0.25, 0.25, embeddings.shape[1])
         embeddings = np.array(embeddings, dtype='float32')
         if args.model == 'KGNN':
-            graph_embeddings = get_embedding(vocab, args.ds_name, args, types='only_graph')
+            graph_embeddings = get_embedding(curdir, vocab, args.ds_name, args, types='only_graph')
             for i in range(len(graph_embeddings)):
                 if i and np.count_nonzero(graph_embeddings[i]) == 0:
                     graph_embeddings[i] = np.random.uniform(-0.25, 0.25, graph_embeddings.shape[1])
@@ -678,7 +678,7 @@ def build_dataset(args,is_bert=False):
                 with open(r'bert-base-uncased/vocab.txt','r', encoding='utf-8') as f:
                     for num,line in enumerate(f.readlines()):
                         bert_vocab[line.strip()]=num
-            graph_embeddings = get_embedding(bert_vocab, args.ds_name, args, types='only_graph')
+            graph_embeddings = get_embedding(curdir, bert_vocab, args.ds_name, args, types='only_graph')
             #### add noise in knowledge graph embeddings, if percent is not zero ###
             percent=0.00
             threshold=random.uniform(0,1)
